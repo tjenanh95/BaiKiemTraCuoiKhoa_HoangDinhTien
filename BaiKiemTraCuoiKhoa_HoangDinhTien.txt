@@ -1,0 +1,29 @@
+câu 1: Phân biệt Static Libraries và Dynamic Libraries:
+Trả lời:
+- Static Librarie: 
+	+ Trong GCC có tên là lib***.a
+	+ Những file có thể linked với các file objects khác để tạo thành 1 file thư viện khác 		hoặc 1 file executable.
+	+ Khi sử dụng static lib, nếu lib có sự thay đổi và muốn application/library đang sử dụng 		lib đó cập nhật đc sự thay đổi thì bắt buộc phải build lại application/library.
+
+- Dynamic Librarie: 
+	+ Trong GCC có tên là lib***.so và đi kèm là file lib***.dll.a
+	+ Những file Dynamic Libraries được load vào file executable của application lúc runtime.
+	+ Khi sử dụng Dynamic lib, nếu lib có sự thay đổi thì có 2 trường hợp
+		. Trường hợp 1: Thay đổi file source, không thay đổi header => Không cần build 				lại application/library chỉ cần copy lại các file .so 
+		. Trường hợp 2: Thay đổi file header => Phải build lại application/library và 					copy lại các file .so 
+
+Câu 3: Mô tả quá trình boot up của linux system trên BBB:
++ Giai đoạn 1: ROM code
+=> ROM code loads SPL (file MLO) từ BOOT device(SDcard hoặc eMMC) vào trong SRAM(Internal RAM).
++ Giai đoạn 2: Secondary program loader
+=> SPL loads TPL(u-boot.img và uImage) vào trong DRAM(External RAM) đồng thời ROM code nhảy đến SPL.
++ Giai đoạn 3: TPL 
+=> TPL loads kernel image(+ FDT và initramfs) vào trong, đồng thời SPL nhảy đến TPL.
+=> Kết thúc giai đoạn thứ 3, kernel nằm trong memory, đang chờ để bắt đầu khởi động.
+
+
+Câu 4: Phân biệt build-in module và loadable kernel module:
+Trả lời:
++ Loadable kernel modules: là một cách thủ công để thêm các đoạn code vào Linux kernel tại run time. (Cho phép giao tiếp với hardware mà không cần biết hardware làm việc như thế nào. LKMs được loaded tại run time, nhưng nó không tồn tại trong user space, về cơ bản nó là một phần của kernel.)
++ Build in module: là cách để tự động load các đoạn code vào Linux kernel.
+
